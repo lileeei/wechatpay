@@ -28,12 +28,14 @@ func (c *Client) UnifiedOrderJSAPI(ps Params) (p Params, err error) {
 	}
 
 	if _, ok := ps["mch_id"]; !ok {
-		ps["mchid"] = c.mchId
+		ps["mch_id"] = c.mchId
 	}
 
 	if _, ok := ps["nonce_str"]; !ok {
 		ps["nonce_str"] = UUID(16)
 	}
+
+	ps["sign"] = ""
 
 	for _, v := range requisiteParams {
 		if _, ok := ps[v]; !ok {
@@ -65,6 +67,7 @@ func (c *Client) UnifiedOrderJSAPI(ps Params) (p Params, err error) {
 	p = make(Params)
 
 	p["appId"] = c.appId
+	p["partnerId"] = c.mchId
 	p["package"] = fmt.Sprintf("prepay_id=%v", respParams["prepay_id"])
 	p["nonceStr"] = respParams["nonce_str"]
 	p["timeStamp"] = strconv.Itoa(int(time.Now().Unix()))
