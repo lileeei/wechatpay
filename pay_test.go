@@ -6,14 +6,12 @@ import (
 )
 
 const (
-	AppId = "wxefe5a7d37bd36609"
-	//APP_SECRET = "12580ed29fa76617fb099efcd565802f"
-	//APP_STATE  = "h4chb7gG"
-	ApiKey   = "ixrAp0o6dY1gek3KcA6Goo16wKPUydwq"
-	MchId    = "1480318092"
-	CertFile = "/home/lilei/tls/apiclient_cert.pem"
-	KeyFile  = "/home/lilei/tls/apiclient_key.pem"
-	RootFile = "/home/lilei/tls/rootca.pem"
+	AppId    = ""
+	ApiKey   = ""
+	MchId    = ""
+	CertFile = "/apiclient_cert.pem"
+	KeyFile  = "/apiclient_key.pem"
+	RootFile = "/rootca.pem"
 )
 
 func TestMktTransfer(t *testing.T) {
@@ -26,7 +24,7 @@ func TestMktTransfer(t *testing.T) {
 	ps.SetString("openid", openId)
 	ps.SetInt("amount", int64(100))
 	ps.SetString("desc", "hello, world")
-	ps.SetString("spbill_create_ip", "116.211.146.193")
+	ps.SetString("spbill_create_ip", "")
 
 	c := NewClient(AppId, ApiKey, MchId)
 
@@ -51,7 +49,7 @@ func TestUnifiedOrderJSAPI(t *testing.T) {
 	ps.SetString("body", "hello, world")
 	ps.SetString("out_trade_no", tradeId)
 	ps.SetInt("total_fee", int64(100))
-	ps.SetString("spbill_create_ip", "116.211.146.193")
+	ps.SetString("spbill_create_ip", "")
 	ps.SetString("notify_url", "")
 	ps.SetString("openid", "")
 

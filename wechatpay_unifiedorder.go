@@ -48,7 +48,7 @@ func (c *Client) UnifiedOrderJSAPI(ps Params) (p Params, err error) {
 		return nil, err
 	}
 
-	httpParams, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
+	httpResp, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *Client) UnifiedOrderJSAPI(ps Params) (p Params, err error) {
 	p = make(Params)
 
 	p["appId"] = c.appId
-	p["package"] = fmt.Sprintf("prepay_id=%v", httpresp["prepay_id"])
+	p["package"] = fmt.Sprintf("prepay_id=%v", respParams["prepay_id"])
 	p["nonceStr"] = respParams["nonce_str"]
 	p["timeStamp"] = strconv.Itoa(int(time.Now().Unix()))
 	p["signType"] = "MD5"
@@ -111,7 +111,7 @@ func (c *Client) UnifiedOrderAPP(ps Params) (p Params, err error) {
 		return nil, err
 	}
 
-	httpParams, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
+	httpResp, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
 	if err != nil {
 		return nil, err
 	}
