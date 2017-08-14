@@ -27,7 +27,7 @@ func (c *Client) UnifiedOrderJSAPI(ps Params) (p Params, err error) {
 		ps["appid"] = c.appId
 	}
 
-	if _, ok := ps["mchid"]; !ok {
+	if _, ok := ps["mch_id"]; !ok {
 		ps["mchid"] = c.mchId
 	}
 
