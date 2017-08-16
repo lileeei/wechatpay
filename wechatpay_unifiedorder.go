@@ -67,7 +67,6 @@ func (c *Client) UnifiedOrderJSAPI(ps Params) (p Params, err error) {
 	p = make(Params)
 
 	p["appId"] = c.appId
-	p["partnerId"] = c.mchId
 	p["package"] = fmt.Sprintf("prepay_id=%v", respParams["prepay_id"])
 	p["nonceStr"] = respParams["nonce_str"]
 	p["timeStamp"] = strconv.Itoa(int(time.Now().Unix()))
