@@ -131,9 +131,10 @@ func (c *Client) UnifiedOrderAPP(ps Params) (p Params, err error) {
 
 	p["appId"] = c.appId
 	p["partnerid"] = c.mchId
-	p["package"] = "Sign=WXPay"
+	p["prepay_id"] = respParams["prepay_id"]
 	p["nonceStr"] = respParams["nonce_str"]
 	p["timeStamp"] = strconv.Itoa(int(time.Now().Unix()))
+	p["packageValue"] = "Sign=WXPay"
 	p["extData"] = "app data"
 	p["sign"] = c.Sign(p, nil)
 
