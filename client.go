@@ -128,7 +128,7 @@ func (c *Client) Post(url string, contentType string, body io.Reader) (resp Para
 
 	defer httpResp.Body.Close()
 
-	if httpResp.StatusCode != 200 {
+	if httpResp.StatusCode != http.StatusOK {
 		err = fmt.Errorf("StatusCode %v", httpResp.StatusCode)
 		return nil, err
 	}

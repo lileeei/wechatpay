@@ -92,13 +92,15 @@ func (c *Client) UnifiedOrderAPP(ps Params) (p Params, err error) {
 		ps["appid"] = c.appId
 	}
 
-	if _, ok := ps["mchid"]; !ok {
-		ps["mchid"] = c.mchId
+	if _, ok := ps["mch_id"]; !ok {
+		ps["mch_id"] = c.mchId
 	}
 
 	if _, ok := ps["nonce_str"]; !ok {
 		ps["nonce_str"] = UUID(16)
 	}
+
+	ps["sign"] = ""
 
 	for _, v := range requisiteParams {
 		if _, ok := ps[v]; !ok {
@@ -108,12 +110,15 @@ func (c *Client) UnifiedOrderAPP(ps Params) (p Params, err error) {
 
 	ps["sign"] = c.Sign(ps, nil)
 
+	//fmt.Printf("UnifiedOrderAPP ps(%#v). \n", ps)
+
 	buf := bytes.NewBuffer(make([]byte, 0, 16<<10))
 	if err := ps.FormatParams2XML(buf); err != nil {
 		return nil, err
 	}
 
-	httpResp, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
+	//httpResp, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
+	respParams, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
 	if err != nil {
 		return nil, err
 	}
@@ -127,16 +132,22 @@ func (c *Client) UnifiedOrderAPP(ps Params) (p Params, err error) {
 		return nil, errors.New("check signature failed")
 	}
 
+	//fmt.Printf("UnifiedOrderAPP resp(%#v). \n", respParams)
+
 	p = make(Params)
 
-	p["appId"] = c.appId
+	p["appid"] = c.appId
 	p["partnerid"] = c.mchId
-	p["prepay_id"] = respParams["prepay_id"]
-	p["nonceStr"] = respParams["nonce_str"]
-	p["timeStamp"] = strconv.Itoa(int(time.Now().Unix()))
-	p["packageValue"] = "Sign=WXPay"
-	p["extData"] = "app data"
+	p["prepayid"] = respParams.Get("prepay_id")
+	p["noncestr"] = respParams.Get("nonce_str")
+	p["timestamp"] = strconv.Itoa(int(time.Now().Unix()))
+	p["package"] = "Sign=WXPay"
+	//p["extData"] = "app data"
+	//p["sign"] = c.Sign(p, nil)
+	//p["sign"] = respParams.Get("sign")
 	p["sign"] = c.Sign(p, nil)
+
+	//fmt.Printf("UnifiedOrderAPP p(%#v). \n", p)
 
 	return p, nil
 }
