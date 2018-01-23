@@ -117,8 +117,7 @@ func (c *Client) UnifiedOrderAPP(ps Params) (p Params, err error) {
 		return nil, err
 	}
 
-	//httpResp, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
-	respParams, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
+	httpResp, err := c.Post(URL_UNIFIEDORDER, CONTENT_TYPE, buf)
 	if err != nil {
 		return nil, err
 	}
